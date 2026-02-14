@@ -4,9 +4,16 @@ let btns = ["yellow", "red", "purple", "green"];
 
 let started = false;
 let level = 0;
+let highScore = parseInt(localStorage.getItem("simonHighScore"), 10) || 0;
 
 let h2 = document.querySelector(".h2txt");
 let boxes = document.querySelectorAll(".box");
+let highScoreEl = document.getElementById("highScoreValue");
+
+function updateHighScoreDisplay() {
+    highScoreEl.textContent = highScore;
+}
+updateHighScoreDisplay();
 
 // Start Game
 document.addEventListener("keypress", function(){
@@ -29,6 +36,12 @@ function levelUp(){
     userSq = [];
     level++;
     h2.innerText = `Level ${level}`;
+
+    if (level > highScore) {
+        highScore = level;
+        localStorage.setItem("simonHighScore", highScore);
+        updateHighScoreDisplay();
+    }
 
     let randomIdx = Math.floor(Math.random() * 4);
     let randomColor = btns[randomIdx];
