@@ -1,3 +1,4 @@
+let highScore = localStorage.getItem("highScore") || 0;
 let userSq = [];
 let gameSq = [];
 let btns = ["yellow", "red", "purple", "green"];
@@ -6,6 +7,9 @@ let started = false;
 let level = 0;
 
 let h2 = document.querySelector(".h2txt");
+let scoreDisplay = document.querySelector(".score");
+
+scoreDisplay.innerText = `High Score: ${highScore}`;
 let boxes = document.querySelectorAll(".box");
 
 // Start Game
@@ -56,8 +60,14 @@ function checkAnswer(idx){
             setTimeout(levelUp, 1000);
         }
     } else {
-        h2.innerText = `Game Over! Your score is ${level - 1 }. Press any key to restart.`;
-        resetGame();
+         if(level - 1 > highScore){
+        highScore = level - 1;
+        localStorage.setItem("highScore", highScore);
+        scoreDisplay.innerText = `High Score: ${highScore}`;
+    }
+
+    h2.innerText = `Game Over! Your score is ${level - 1}. Press any key to restart.`;
+    resetGame();
     }
 }
 
